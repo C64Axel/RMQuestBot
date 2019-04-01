@@ -34,7 +34,7 @@ dbpassword=xxxxxxxxx  # Database user password
    help - : Help
    id - <PokedexID>: Search for Quests with the PokemonID reward
    text - <Text>: Search for Quests with <Text> inside
-   status: Show Pokemons get from Quests
+   status - : Show Pokemons get from Quests
    ```
    
    You can use this for the command list in Telegram ;-)
