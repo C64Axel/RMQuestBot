@@ -10,13 +10,14 @@ pip install -r requirements.txt
 
 ### Telegram
 
-Create a Telegram Bot and put the APIToken in the Bot.ini File.
+Create a Telegram Bot.
+Copy config.ini.example to config.ini and set the APIToken Variable.
 
 ```
 token=xxxxxxxxxx      # Bot API Token
 locale=de             # Language Settings
 
-dbname=tgbotdb        # Database name
+dbname=rocketmapdb    # Database name
 dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
 dbuser=rocketmapuser  # Database user
@@ -24,8 +25,6 @@ dbpassword=xxxxxxxxx  # Database user password
 ```
 
 ## Programs:
-
-** All programs need the inifile as their first parameter. **
 
 1. **bot.py** is the program for the Telegram bot commands.
 
@@ -35,13 +34,14 @@ dbpassword=xxxxxxxxx  # Database user password
    help - : Help
    id - <PokedexID>: Search for Quests with the PokemonID reward
    text - <Text>: Search for Quests with <Text> inside
+   status: Show Pokemons get from Quests
    ```
    
    You can use this for the command list in Telegram ;-)
 
 ## Changes
 
-### XX. XXX 2010
+### 01. Apr 2019
 
 Initial Version
 
