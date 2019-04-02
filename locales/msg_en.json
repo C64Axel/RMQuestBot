@@ -1,5 +1,5 @@
 {
-	"1"  : "/id <PokedexID>:Search for Quests with this Pokemonid as reward\n/text <TEXT>:search for Quests with <TEXT> inside",
+	"1"  : "/id <PokedexID>:Search for Quests with this Pokemonid as reward\n/text <TEXT>:search for Quests with <TEXT> inside\nShows Pokemon in Quests and theit number",
 	"2"  : "No connection to Database",
 	"3"  : "Please give me a valid PokemonID",
 	"4"  : "Found no Quests for \"{}\"",

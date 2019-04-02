@@ -1,5 +1,5 @@
 {
-	"1"  : "/id <Pokedexid>:Sucht in den Quests nach der PomemonID\n/text <Text>:Sucht in den Quests nach dem Text",
+	"1"  : "/id <Pokedexid>:Sucht in den Quests nach der PomemonID\n/text <Text>:Sucht in den Quests nach dem Text\n/status:Zeigt die Pokemon in den Questst mit Anzahl",
         "2"  : "Keine Verbindung zu Datenbank",
 	"3"  : "Keine g\u00fcltige PokemonID angegeben",
         "4"  : "Keine Quest f\u00fcr \"{}\" gefunden",
