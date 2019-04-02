@@ -80,12 +80,10 @@ def handle(msg):
 			cursor.execute("select count(*) from trs_quest where quest_timestamp > '%s' and quest_pokemon_id='%s'" % (dt,pokemonid))
 	                result = cursor.fetchone()
         	        if result[0] > 0:
-                        	cursor.execute("select GUID,quest_task from trs_quest where quest_timestamp > '%s' and quest_pokemon_id='%s'" % (dt,pokemonid))
+                        	cursor.execute("select latitude,longitude,name,quest_task from trs_quest inner join pokestop on (GUID = pokestop_id) where quest_timestamp > '%s' and quest_pokemon_id='%s'" % (dt,pokemonid))
 		                pokestops = cursor.fetchall()
 				for row in pokestops:
-                        		cursor.execute("select latitude,longitude,name from pokestop where pokestop_id='%s'" % (row[0]))
-					pokestop = cursor.fetchone()
-					sendvenue(chat_id,pokestop[0],pokestop[1],pokestop[2],pokemonname + "\n" + row[1])
+					sendvenue(chat_id,row[0],row[1],row[2],pokemonname + "\n" + row[3])
 
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
@@ -102,12 +100,10 @@ def handle(msg):
 			cursor.execute("select count(*) from trs_quest where quest_timestamp > '%s' and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 			result = cursor.fetchone()
 			if result[0] > 0:
-				cursor.execute("select GUID,quest_task from trs_quest where quest_timestamp > '%s' and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
+				cursor.execute("select latitude,longitude,name,quest_task from trs_quest inner join pokestop on (GUID = pokestop_id) where quest_timestamp > '%s' and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 				pokestops = cursor.fetchall()
 				for row in pokestops:
-					cursor.execute("select latitude,longitude,name from pokestop where pokestop_id='%s'" % (row[0]))
-					pokestop = cursor.fetchone()
-					sendvenue(chat_id,pokestop[0],pokestop[1],pokestop[2],row[1])
+					sendvenue(chat_id,row[0],row[1],row[2],row[3])
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(searchtext))
                 except:
