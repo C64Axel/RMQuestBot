@@ -23,6 +23,7 @@ def sendtelegram(chatid,msg):
         except telepot.exception.TooManyRequestsError:
         	log("To many Requests. Sleep 1 sec.")
         	sleep(1)
+		bot.sendMessage(chatid, msg)
 	except:
 		log ("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
 
@@ -77,10 +78,17 @@ def handle(msg):
                         sendtelegram(chat_id,msg_loc["3"])
                         return
                 try:
-			cursor.execute("select count(*) from trs_quest where quest_timestamp > '%s' and quest_pokemon_id='%s'" % (dt,pokemonid))
+			cursor.execute("select count(*) \
+					from trs_quest \
+					where quest_timestamp > '%s' \
+						and quest_pokemon_id='%s'" % (dt,pokemonid))
 	                result = cursor.fetchone()
         	        if result[0] > 0:
-                        	cursor.execute("select latitude,longitude,name,quest_task from trs_quest inner join pokestop on (GUID = pokestop_id) where quest_timestamp > '%s' and quest_pokemon_id='%s'" % (dt,pokemonid))
+                        	cursor.execute("select latitude,longitude,name,quest_task \
+						from trs_quest \
+						inner join pokestop on (GUID = pokestop_id) \
+						where quest_timestamp > '%s' \
+							and quest_pokemon_id='%s'" % (dt,pokemonid))
 		                pokestops = cursor.fetchall()
 				for row in pokestops:
 					sendvenue(chat_id,row[0],row[1],row[2],pokemonname + "\n" + row[3])
@@ -97,10 +105,17 @@ def handle(msg):
                         sendtelegram(chat_id,msg_loc["3"])
                         return
 		try:
-			cursor.execute("select count(*) from trs_quest where quest_timestamp > '%s' and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
+			cursor.execute("select count(*) \
+					from trs_quest \
+					where quest_timestamp > '%s' \
+						and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 			result = cursor.fetchone()
 			if result[0] > 0:
-				cursor.execute("select latitude,longitude,name,quest_task from trs_quest inner join pokestop on (GUID = pokestop_id) where quest_timestamp > '%s' and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
+				cursor.execute("select latitude,longitude,name,quest_task \
+						from trs_quest \
+						inner join pokestop on (GUID = pokestop_id) \
+						where quest_timestamp > '%s' \
+							and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 				pokestops = cursor.fetchall()
 				for row in pokestops:
 					sendvenue(chat_id,row[0],row[1],row[2],row[3])
@@ -111,10 +126,16 @@ def handle(msg):
 
         elif command == "/status":
 		try:
-			cursor.execute("select count(*) from trs_quest where quest_pokemon_id > '0'")
+			cursor.execute("select count(*) \
+					from trs_quest \
+					where quest_pokemon_id > '0'")
 			result = cursor.fetchone()
 			if result[0] > 0:
-				cursor.execute("select quest_pokemon_id, count(*) from trs_quest where quest_timestamp > '%s' and quest_pokemon_id > '0' group by quest_pokemon_id" % (dt))
+				cursor.execute("select quest_pokemon_id, count(*) \
+						from trs_quest \
+						where quest_timestamp > '%s' \
+							and quest_pokemon_id > '0' \
+						group by quest_pokemon_id" % (dt))
 				pokemon = cursor.fetchall()
 				msg = msg_loc["7"] + "\n"
 				msg = msg + msg_loc["8"] + "\n"
