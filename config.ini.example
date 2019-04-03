@@ -1,8 +1,10 @@
 token=xxxxxxxxxx      # Bot API Token
-locale=de             # Language Settings
+locale=de             # Language Settings see dir locales
 
 dbname=tgbotdb        # Databse name
 dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
 dbuser=rocketmapuser  # Database user
 dbpassword=xxxxxxxxx  # Database user password
+
+# maxsearchresult=30  # Max Results in Text Search (default 30)

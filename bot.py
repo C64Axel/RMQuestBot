@@ -99,11 +99,11 @@ def handle(msg):
                         sendtelegram(chat_id, msg_loc["2"])
 
 	elif command == "/text":
-                try:
-                        searchtext = parameter
-                except:
-                        sendtelegram(chat_id,msg_loc["3"])
-                        return
+		searchtext = parameter
+		if not searchtext:
+			sendtelegram(chat_id,msg_loc["9"])
+			return
+
 		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
@@ -111,14 +111,17 @@ def handle(msg):
 						and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 			result = cursor.fetchone()
 			if result[0] > 0:
-				cursor.execute("select latitude,longitude,name,quest_task \
-						from trs_quest \
-						inner join pokestop on (GUID = pokestop_id) \
-						where quest_timestamp > '%s' \
-							and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
-				pokestops = cursor.fetchall()
-				for row in pokestops:
-					sendvenue(chat_id,row[0],row[1],row[2],row[3])
+				if result[0] < maxsearch:
+					cursor.execute("select latitude,longitude,name,quest_task \
+							from trs_quest \
+							inner join pokestop on (GUID = pokestop_id) \
+							where quest_timestamp > '%s' \
+								and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
+					pokestops = cursor.fetchall()
+					for row in pokestops:
+						sendvenue(chat_id,row[0],row[1],row[2],row[3])
+				else:
+					sendtelegram(chat_id, msg_loc["10"].format(maxsearch))
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(searchtext))
                 except:
@@ -163,13 +166,14 @@ sys.excepthook = my_excepthook
 try:
 	inifile = "config.ini"
 	config = ConfigObj(inifile)
-	token=config.get('token')
+	token = config.get('token')
         db = config['dbname']
         dbhost = config['dbhost']
-        dbport = config.get('dbport', '3306')
+        dbport = int(config.get('dbport', '3306'))
         dbuser = config['dbuser']
         dbpassword = config['dbpassword']
 	locale = config.get('locale', 'de')
+	maxsearch = int(config.get('maxsearchresult', '30'))
 except:
 	botname = "None"
 	log("Inifile not given")
@@ -182,7 +186,7 @@ try:
 				     user=dbuser,
 				     password=dbpassword,
 				     db=db,
-				     port=int(dbport),
+				     port=dbport,
 				     charset='utf8mb4',
 				     autocommit='True')
 	cursor = connection.cursor()

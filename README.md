@@ -22,6 +22,8 @@ dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
 dbuser=rocketmapuser  # Database user
 dbpassword=xxxxxxxxx  # Database user password
+
+maxsearchresult=30    # Max results in text search (default 30)
 ```
 
 ## Programs:
