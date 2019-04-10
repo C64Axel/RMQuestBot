@@ -49,7 +49,7 @@ def handle(msg):
 	log("Message from ID: " + str(chat_id) + ":" + username + ":" + msg['text'])
 
 	commandline = msg['text'].split("@")[0]
-	command = commandline.split(" ")[0]
+	command = commandline.split(" ")[0].lower()
 	try:
 		parameter = commandline.split(" ",1)[1]
 	except:
