@@ -1,4 +1,4 @@
-# RMTGBot
+# RMQuestBot
 
 Telegram Bot for searching MAD Quests in RM Database
 
