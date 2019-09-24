@@ -202,10 +202,6 @@ try:
 	botname = botident['username']
 	botcallname = botident['first_name']
 	botid = botident['id']
-	try:
-		cursor.execute("insert into bot values ('%s','%s')" % (botid,botname))
-	except:
-		pass
 except:
         log("Error in Telegram. Can not find Botname and ID")
         quit()
