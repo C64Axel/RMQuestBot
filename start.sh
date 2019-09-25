@@ -2,4 +2,6 @@
 
 cd ~/RMQuestBot
 
-nohup ./bot.py >/dev/null 2>&1 &
+nohup ./rmquestbot.py >/dev/null 2>&1 &
+
+exit 0

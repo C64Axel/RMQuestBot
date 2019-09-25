@@ -67,7 +67,7 @@ def handle(msg):
 		msg = ""
 		helplist = msg_loc["1"].split("\n")
 		for i in helplist:
-			msg = msg + "{} :\n{}\n".format(i.split(":")[0].encode("utf-8"),i.split(":")[1].encode("utf-8"))
+			msg = msg + u"{} :\n{}\n".format(i.split(":")[0],i.split(":")[1])
 		bot.sendMessage(chat_id, msg)
 
 	elif command == "/id":
@@ -143,7 +143,7 @@ def handle(msg):
 				msg = msg_loc["7"] + "\n"
 				msg = msg + msg_loc["8"] + "\n"
 				for row in pokemon:
-					msg = msg + "{} : {} : {}\n".format(row[0],pokemon_loc[str(row[0])]["name"].encode("utf-8"),row[1])
+					msg = msg + u"{} : {} : {}\n".format(row[0],pokemon_loc[str(row[0])]["name"],row[1])
 				while len(msg) > 0:     # cut message to telegram max messagesize
 					msgcut = msg[:4096].rsplit("\n",1)[0]
 					sendtelegram(chat_id, msgcut)
