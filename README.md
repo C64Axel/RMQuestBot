@@ -28,7 +28,7 @@ maxsearchresult=30    # Max results in text search (default 30)
 
 ## Programs:
 
-1. **bot.py** is the program for the Telegram bot commands.
+1. **rmquestbot.py** is the program for the Telegram bot commands.
 
    It knows the folowing commands:
 
