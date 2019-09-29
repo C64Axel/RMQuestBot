@@ -6,6 +6,8 @@ import logging
 import sys
 import json
 import datetime
+import simplekml
+import io
 
 from telepot.loop import MessageLoop
 from time import sleep
@@ -69,6 +71,39 @@ def handle(msg):
 		for i in helplist:
 			msg = msg + u"{} :\n{}\n".format(i.split(":")[0],i.split(":")[1])
 		bot.sendMessage(chat_id, msg)
+
+	elif command == "/kml":
+                try:
+                        pokemonid = parameter
+			pokemonname = pokemon_loc[pokemonid]["name"]
+                except:
+                        sendtelegram(chat_id,msg_loc["3"])
+                        return
+                try:
+			cursor.execute("select count(*) \
+					from trs_quest \
+					where quest_timestamp > '%s' \
+						and quest_pokemon_id='%s'" % (dt,pokemonid))
+			result = cursor.fetchone()
+			if result[0] > 0:
+				kml=simplekml.Kml()
+				kml.document.name = pokemonname
+				cursor.execute("select name,longitude,latitude \
+						from pokestop \
+						inner join trs_quest on (GUID = pokestop_id) \
+						where quest_timestamp > '%s' \
+							and quest_pokemon_id='%s'" % (dt,pokemonid))
+				pokestops = cursor.fetchall()
+				for row in pokestops:
+					kml.newpoint(name=row[0], coords=[(row[1],row[2])])
+
+				f=io.StringIO(kml.kml())
+				bot.sendDocument(chat_id,(pokemonname + ".kml", f))
+
+			else:
+				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
+                except:
+                        sendtelegram(chat_id, msg_loc["2"])
 
 	elif command == "/id":
                 try:

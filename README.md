@@ -35,11 +35,15 @@ maxsearchresult=30    # Max results in text search (default 30)
    ```
    help - : Help
    id - <PokedexID>: Search for Quests with the PokemonID reward
+   kml - <PokedexID>: Download all Quests of the PokemonID as KML-File
    text - <Text>: Search for Quests with <Text> inside
    status - : Show Pokemons get from Quests
    ```
    
    You can use this for the command list in Telegram ;-)
+
+   kml allow the user to download a kml Waypoint file for using 
+   with some mapping tools like GPXViewer for Android
 
 ## Changes
 
@@ -47,3 +51,6 @@ maxsearchresult=30    # Max results in text search (default 30)
 
 Initial Version
 
+### 29. Sep 2019
+
+Include KML Download
