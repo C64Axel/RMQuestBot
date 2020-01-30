@@ -1,7 +1,7 @@
 token=xxxxxxxxxx      # Bot API Token
 locale=de             # Language Settings see dir locales
 
-dbname=tgbotdb        # Databse name
+dbname=rocketmapdb    # Databse name
 dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
 dbuser=rocketmapuser  # Database user
