@@ -16,8 +16,8 @@ from configobj import ConfigObj
 # Logging
 def log(msg):
 	print (msg)
-		logging.basicConfig(filename="log/" + botname + ".log", format="%(asctime)s|%(message)s", level=logging.INFO)
-		logging.info(msg)
+	logging.basicConfig(filename="log/" + botname + ".log", format="%(asctime)s|%(message)s", level=logging.INFO)
+	logging.info(msg)
 
 def sendtelegram(chatid,msg):
 	try:
@@ -36,6 +36,15 @@ def sendvenue(chatid,latitude,longitude,stopname,pokemonname):
 		log("To many Requests. Sleep 1 sec.")
 		sleep(1)
 
+def sendkml(chatid,pokemonname,pokestops):
+	kml=simplekml.Kml()
+	kml.document.name = pokemonname
+	for row in pokestops:
+		pnt = kml.newpoint(name=row[2], coords=[(row[1],row[0])])
+		pnt.description = row[3]
+
+	f=io.StringIO(kml.kml())
+	bot.sendDocument(chatid,(pokemonname + ".kml", f))
 
 # Handle for incomming Commands
 def handle(msg):
@@ -86,24 +95,19 @@ def handle(msg):
 						and quest_pokemon_id='%s'" % (dt,pokemonid))
 			result = cursor.fetchone()
 			if result[0] > 0:
-				kml=simplekml.Kml()
-				kml.document.name = pokemonname
-				cursor.execute("select name,longitude,latitude \
+				cursor.execute("select latitude,longitude,name,quest_task \
 						from pokestop \
 						inner join trs_quest on (GUID = pokestop_id) \
 						where quest_timestamp > '%s' \
 							and quest_pokemon_id='%s'" % (dt,pokemonid))
 				pokestops = cursor.fetchall()
-				for row in pokestops:
-					kml.newpoint(name=row[0], coords=[(row[1],row[2])])
-
-				f=io.StringIO(kml.kml())
-				bot.sendDocument(chat_id,(pokemonname + ".kml", f))
+				sendkml(chat_id,pokemonname,pokestops)
 
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
 		except:
 			sendtelegram(chat_id, msg_loc["2"])
+			raise
 
 	elif command == "/id":
 		try:
@@ -132,6 +136,7 @@ def handle(msg):
 				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
 		except:
 			sendtelegram(chat_id, msg_loc["2"])
+			raise
 
 	elif command == "/text":
 		searchtext = parameter
@@ -146,21 +151,24 @@ def handle(msg):
 						and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
 			result = cursor.fetchone()
 			if result[0] > 0:
+				cursor.execute("select latitude,longitude,name,quest_task \
+						from trs_quest \
+						inner join pokestop on (GUID = pokestop_id) \
+						where quest_timestamp > '%s' \
+							and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
+				pokestops = cursor.fetchall()
 				if result[0] < maxsearch:
-					cursor.execute("select latitude,longitude,name,quest_task \
-							from trs_quest \
-							inner join pokestop on (GUID = pokestop_id) \
-							where quest_timestamp > '%s' \
-								and quest_task like '%s'" % (dt,"%" + searchtext +"%"))
-					pokestops = cursor.fetchall()
 					for row in pokestops:
 						sendvenue(chat_id,row[0],row[1],row[2],row[3])
 				else:
 					sendtelegram(chat_id, msg_loc["10"].format(maxsearch))
+					sendkml(chat_id,"text",pokestops)
+					
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(searchtext))
 		except:
 			sendtelegram(chat_id, msg_loc["2"])
+			raise
 
 	elif command == "/status":
 		try:
@@ -188,6 +196,7 @@ def handle(msg):
 				sendtelegram(chat_id, msg_loc["6"])
 		except:
 			sendtelegram(chat_id, msg_loc["2"])
+			raise
 
 
 def my_excepthook(excType, excValue, traceback, logger=logging):
@@ -202,11 +211,11 @@ try:
 	inifile = "config.ini"
 	config = ConfigObj(inifile)
 	token = config.get('token')
-		db = config['dbname']
-		dbhost = config['dbhost']
-		dbport = int(config.get('dbport', '3306'))
-		dbuser = config['dbuser']
-		dbpassword = config['dbpassword']
+	db = config['dbname']
+	dbhost = config['dbhost']
+	dbport = int(config.get('dbport', '3306'))
+	dbuser = config['dbuser']
+	dbpassword = config['dbpassword']
 	locale = config.get('locale', 'de')
 	maxsearch = int(config.get('maxsearchresult', '30'))
 except:
