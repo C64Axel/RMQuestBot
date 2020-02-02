@@ -1,5 +1,5 @@
 {
-	"1"  : "/id <PokedexID>:Search for Quests with this Pokemonid as reward\n/text <TEXT>:search for Quests with <TEXT> inside\n/status:Shows Pokemon in Quests and theit number",
+	"1"  : "/id <PokedexID>:Search for Quests with this Pokemonid as reward\n/text <TEXT>:search for Quests with <TEXT> inside\n/status:Shows Pokemon in Quests and theit number\n/kml <PokedexID>:Creates a kml waypoint file",
 	"2"  : "No connection to Database",
 	"3"  : "Please give me a valid PokemonID",
 	"4"  : "Found no Quests for \"{}\"",
