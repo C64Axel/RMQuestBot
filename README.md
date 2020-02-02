@@ -54,3 +54,8 @@ Initial Version
 ### 29. Sep 2019
 
 Include KML Download
+
+### 2. Feb 2020
+
+Send KML-File when maxsearchresult exceeded
+Extend KML with Description
