@@ -1,5 +1,5 @@
 {
-	"1"  : "/id <Pokedexid>:Sucht in den Quests nach der PokemonID\n/text <Text>:Sucht in den Quests nach dem Text\n/status:Zeigt die Pokemon in den Questst mit Anzahl",
+	"1"  : "/id <Pokedexid>:Sucht in den Quests nach der PokemonID\n/text <Text>:Sucht in den Quests nach dem Text\n/status:Zeigt die Pokemon in den Questst mit Anzahl\n/klm <Pokedexid>:Erzeugt eine kml-Waypoint Datei",
         "2"  : "Keine Verbindung zur Datenbank",
 	"3"  : "Keine gültige PokemonID angegeben",
         "4"  : "Keine Quest für \"{}\" gefunden",
@@ -8,5 +8,5 @@
         "7"  : "Pokemon in Quests",
         "8"  : "ID : Name : Anzahl",
         "9"  : "Keinen Suchtext angegeben",
-	"10" : "Es sind mehr als {} Ergebnisse vorhanden. Bitte Suchtext verfeinern"
+	"10" : "Es sind mehr als {} Ergebnisse vorhanden. Bitte kml-Datei benutzen"
 }
