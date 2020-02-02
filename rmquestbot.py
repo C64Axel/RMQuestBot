@@ -16,15 +16,15 @@ from configobj import ConfigObj
 # Logging
 def log(msg):
 	print (msg)
-        logging.basicConfig(filename="log/" + botname + ".log", format="%(asctime)s|%(message)s", level=logging.INFO)
-        logging.info(msg)
+		logging.basicConfig(filename="log/" + botname + ".log", format="%(asctime)s|%(message)s", level=logging.INFO)
+		logging.info(msg)
 
 def sendtelegram(chatid,msg):
 	try:
 		bot.sendMessage(chatid, msg)
-        except telepot.exception.TooManyRequestsError:
-        	log("To many Requests. Sleep 1 sec.")
-        	sleep(1)
+	except telepot.exception.TooManyRequestsError:
+		log("To many Requests. Sleep 1 sec.")
+		sleep(1)
 		bot.sendMessage(chatid, msg)
 	except:
 		log ("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
@@ -73,13 +73,13 @@ def handle(msg):
 		bot.sendMessage(chat_id, msg)
 
 	elif command == "/kml":
-                try:
-                        pokemonid = parameter
+		try:
+			pokemonid = parameter
 			pokemonname = pokemon_loc[pokemonid]["name"]
-                except:
-                        sendtelegram(chat_id,msg_loc["3"])
-                        return
-                try:
+		except:
+			sendtelegram(chat_id,msg_loc["3"])
+			return
+		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
 					where quest_timestamp > '%s' \
@@ -102,36 +102,36 @@ def handle(msg):
 
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
-                except:
-                        sendtelegram(chat_id, msg_loc["2"])
+		except:
+			sendtelegram(chat_id, msg_loc["2"])
 
 	elif command == "/id":
-                try:
-                        pokemonid = parameter
+		try:
+			pokemonid = parameter
 			pokemonname = pokemon_loc[pokemonid]["name"]
-                except:
-                        sendtelegram(chat_id,msg_loc["3"])
-                        return
-                try:
+		except:
+			sendtelegram(chat_id,msg_loc["3"])
+			return
+		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
 					where quest_timestamp > '%s' \
 						and quest_pokemon_id='%s'" % (dt,pokemonid))
-	                result = cursor.fetchone()
-        	        if result[0] > 0:
-                        	cursor.execute("select latitude,longitude,name,quest_task \
+			result = cursor.fetchone()
+			if result[0] > 0:
+				cursor.execute("select latitude,longitude,name,quest_task \
 						from trs_quest \
 						inner join pokestop on (GUID = pokestop_id) \
 						where quest_timestamp > '%s' \
 							and quest_pokemon_id='%s'" % (dt,pokemonid))
-		                pokestops = cursor.fetchall()
+				pokestops = cursor.fetchall()
 				for row in pokestops:
 					sendvenue(chat_id,row[0],row[1],row[2],pokemonname + "\n" + row[3])
 
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(pokemonname))
-                except:
-                        sendtelegram(chat_id, msg_loc["2"])
+		except:
+			sendtelegram(chat_id, msg_loc["2"])
 
 	elif command == "/text":
 		searchtext = parameter
@@ -159,10 +159,10 @@ def handle(msg):
 					sendtelegram(chat_id, msg_loc["10"].format(maxsearch))
 			else:
 				sendtelegram(chat_id, msg_loc["4"].format(searchtext))
-                except:
-                        sendtelegram(chat_id, msg_loc["2"])
+		except:
+			sendtelegram(chat_id, msg_loc["2"])
 
-        elif command == "/status":
+	elif command == "/status":
 		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
@@ -186,13 +186,13 @@ def handle(msg):
 
 			else:
 				sendtelegram(chat_id, msg_loc["6"])
-                except:
-                        sendtelegram(chat_id, msg_loc["2"])
- 
+		except:
+			sendtelegram(chat_id, msg_loc["2"])
+
 
 def my_excepthook(excType, excValue, traceback, logger=logging):
-    logging.error("Logging an uncaught exception",
-                 exc_info=(excType, excValue, traceback))
+	logging.error("Logging an uncaught exception",
+		exc_info=(excType, excValue, traceback))
 
 sys.excepthook = my_excepthook
 
@@ -202,11 +202,11 @@ try:
 	inifile = "config.ini"
 	config = ConfigObj(inifile)
 	token = config.get('token')
-        db = config['dbname']
-        dbhost = config['dbhost']
-        dbport = int(config.get('dbport', '3306'))
-        dbuser = config['dbuser']
-        dbpassword = config['dbpassword']
+		db = config['dbname']
+		dbhost = config['dbhost']
+		dbport = int(config.get('dbport', '3306'))
+		dbuser = config['dbuser']
+		dbpassword = config['dbpassword']
 	locale = config.get('locale', 'de')
 	maxsearch = int(config.get('maxsearchresult', '30'))
 except:
@@ -218,12 +218,12 @@ except:
 #
 try:
 	connection = pymysql.connect(host=dbhost,
-				     user=dbuser,
-				     password=dbpassword,
-				     db=db,
-				     port=dbport,
-				     charset='utf8mb4',
-				     autocommit='True')
+		user=dbuser,
+		password=dbpassword,
+		db=db,
+		port=dbport,
+		charset='utf8mb4',
+		autocommit='True')
 	cursor = connection.cursor()
 except:
 	log("can not connect to database")
@@ -238,8 +238,8 @@ try:
 	botcallname = botident['first_name']
 	botid = botident['id']
 except:
-        log("Error in Telegram. Can not find Botname and ID")
-        quit()
+	log("Error in Telegram. Can not find Botname and ID")
+	quit()
 
 
 msg_loc = json.load(open("locales/msg_" + locale + ".json"))
@@ -248,12 +248,12 @@ pokemon_loc = json.load(open("locales/pokemon_" + locale + ".json"))
 # Main Loop
 try:
 
-        MessageLoop(bot, handle).run_as_thread()
+	MessageLoop(bot, handle).run_as_thread()
 
-        log("Bot {} started".format(botname))
+	log("Bot {} started".format(botname))
 
-        while True:
-                sleep(60)
+	while True:
+		sleep(60)
 
 except KeyboardInterrupt:
-        pass
+	pass
