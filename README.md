@@ -59,3 +59,7 @@ Include KML Download
 
 Send KML-File when maxsearchresult exceeded
 Extend KML with Description
+
+### 5. Nov 2023
+
+Docker Image
