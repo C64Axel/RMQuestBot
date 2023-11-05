@@ -1,0 +1,12 @@
+{
+	"1" : "/id <Pokedexid>:Recherche le PokemonID dans les quêtes\n/text <Text>:Recherche le texte dans les quêtes\n/status:Affiche les Pokemon dans les questst avec nombre\n/klm <Pokedexid>:Crée un fichier waypoint kml",
+  "2" : "Pas de connexion à la base de données",
+  "3" : "Pas de PokemonID valide spécifié",
+  "4" : "Aucune quête trouvée pour \"{}\"",
+  "5" : "ID incorrect",
+  "6" : "Aucune quête dans la base de données",
+  "7" : "Pokemon dans les quêtes",
+  "8" : "ID : Nom : Nombre",
+  "9" : "Pas de texte de recherche spécifié",
+	"10" : "Il y a plus de {} résultats. Veuillez utiliser le fichier kml"
+}
