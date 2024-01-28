@@ -84,7 +84,7 @@ def handle(msg):
 	elif command == "/kml":
 		pokemonid = parameter
 		try:
-			pokemonname = pokemon_loc[str(row[0])]["name"]
+			pokemonname = pokemon_loc[pokemonid]["name"]
 		except:
 			pokemonname = "?????"
 		try:
@@ -111,7 +111,7 @@ def handle(msg):
 	elif command == "/id":
 		pokemonid = parameter
 		try:
-			pokemonname = pokemon_loc[str(row[0])]["name"]
+			pokemonname = pokemon_loc[pokemonid]["name"]
 		except:
 			pokemonname = "?????"
 		try:
@@ -254,7 +254,7 @@ except:
 
 
 msg_loc = json.load(open("locales/msg_" + locale + ".json"))
-pokemon_loc = json.load(open("locales/pokemon_" + locale + ".json"))
+pokemon_loc = json.load(open("locales/monster_" + locale + ".json"))
 
 # Main Loop
 try:
