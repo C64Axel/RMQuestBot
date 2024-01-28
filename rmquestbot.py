@@ -82,12 +82,11 @@ def handle(msg):
 		bot.sendMessage(chat_id, msg)
 
 	elif command == "/kml":
+		pokemonid = parameter
 		try:
-			pokemonid = parameter
-			pokemonname = pokemon_loc[pokemonid]["name"]
+			pokemonname = pokemon_loc[str(row[0])]["name"]
 		except:
-			sendtelegram(chat_id,msg_loc["3"])
-			return
+			pokemonname = "?????"
 		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
@@ -110,12 +109,11 @@ def handle(msg):
 			raise
 
 	elif command == "/id":
+		pokemonid = parameter
 		try:
-			pokemonid = parameter
-			pokemonname = pokemon_loc[pokemonid]["name"]
+			pokemonname = pokemon_loc[str(row[0])]["name"]
 		except:
-			sendtelegram(chat_id,msg_loc["3"])
-			return
+			pokemonname = "?????"
 		try:
 			cursor.execute("select count(*) \
 					from trs_quest \
@@ -186,7 +184,11 @@ def handle(msg):
 				msg = msg_loc["7"] + "\n"
 				msg = msg + msg_loc["8"] + "\n"
 				for row in pokemon:
-					msg = msg + u"{} : {} : {}\n".format(row[0],pokemon_loc[str(row[0])]["name"],row[1])
+					try:
+						pokemonname = pokemon_loc[str(row[0])]["name"]
+					except:
+						pokemonname = "?????"
+					msg = msg + u"{} : {} : {}\n".format(row[0],pokemonname,row[1])
 				while len(msg) > 0:     # cut message to telegram max messagesize
 					msgcut = msg[:4096].rsplit("\n",1)[0]
 					sendtelegram(chat_id, msgcut)
